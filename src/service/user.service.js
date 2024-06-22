@@ -90,7 +90,6 @@ export class UserService {
   }
 
   static async login(request) {
-    console.log("HEHE:", request);
     const existedUser = await db.user.findFirst({
       where: {
         username: request.username,

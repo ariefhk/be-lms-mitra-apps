@@ -6,7 +6,7 @@ import { API_STATUS_CODE } from "../helper/status-code.helper.js";
 
 export class AdminService {
   static async list(request) {
-    checkAllowedRole(ROLE.IS_ADMIN, request.role);
+    checkAllowedRole(ROLE.IS_ADMIN, request.loggedRole);
 
     const admins = await db.admin.findMany({
       select: {
@@ -23,7 +23,7 @@ export class AdminService {
   }
 
   static async detail(request) {
-    checkAllowedRole(ROLE.IS_ADMIN, request.role);
+    checkAllowedRole(ROLE.IS_ADMIN, request.loggedRole);
 
     if (!request?.adminId) {
       throw new APIError(API_STATUS_CODE.BAD_REQUEST, "Admin Id must be inputted!");
@@ -66,7 +66,7 @@ export class AdminService {
   }
 
   static async create(request) {
-    checkAllowedRole(ROLE.IS_ADMIN, request.role);
+    checkAllowedRole(ROLE.IS_ADMIN, request.loggedRole);
 
     const countUser = await db.user.count({
       where: {
@@ -75,7 +75,7 @@ export class AdminService {
     });
 
     if (countUser !== 0) {
-      throw new APIError(API_STATUS_CODE.BAD_REQUEST, "user already exist!");
+      throw new APIError(API_STATUS_CODE.BAD_REQUEST, "admin already exist!");
     }
 
     request.password = await createBcryptPassword(request.password);
@@ -84,7 +84,7 @@ export class AdminService {
       data: {
         username: request.username,
         password: request.password,
-        role: request.role,
+        loggedRole: request.loggedRole,
       },
     });
 
@@ -110,7 +110,7 @@ export class AdminService {
   }
 
   static async update(request) {
-    checkAllowedRole(ROLE.IS_ADMIN, request.role);
+    checkAllowedRole(ROLE.IS_ADMIN, request.loggedRole);
 
     if (!request?.adminId) {
       throw new APIError(API_STATUS_CODE.BAD_REQUEST, "Admin Id must be inputted!");
@@ -150,7 +150,7 @@ export class AdminService {
   }
 
   static async delete(request) {
-    checkAllowedRole(ROLE.IS_ADMIN, request.role);
+    checkAllowedRole(ROLE.IS_ADMIN, request.loggedRole);
 
     if (!request?.adminId) {
       throw new APIError(API_STATUS_CODE.BAD_REQUEST, "Admin Id must be inputted!");

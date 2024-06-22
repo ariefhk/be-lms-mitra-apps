@@ -7,11 +7,11 @@ export class AdminController {
     try {
       const user = req.user;
 
-      const requestAdmin = {
-        role: user.role,
+      const adminRequest = {
+        loggedRole: user.role,
       };
 
-      const admins = await AdminService.list(requestAdmin);
+      const admins = await AdminService.list(adminRequest);
 
       return res.status(API_STATUS_CODE.OK).json(ResponseHelper.toJson("Success Get Admins", admins));
     } catch (error) {
@@ -23,12 +23,12 @@ export class AdminController {
     try {
       const user = req.user;
 
-      const requestAdmin = {
-        role: user.role,
+      const adminRequest = {
+        loggedRole: user.role,
         adminId: req?.params?.adminId ? Number(req?.params?.adminId) : null,
       };
 
-      const admins = await AdminService.detail(requestAdmin);
+      const admins = await AdminService.detail(adminRequest);
 
       return res.status(API_STATUS_CODE.OK).json(ResponseHelper.toJson("Success Get Admins", admins));
     } catch (error) {
@@ -40,8 +40,8 @@ export class AdminController {
     try {
       const user = req.user;
 
-      const requestAdmin = {
-        role: user.role,
+      const adminRequest = {
+        loggedRole: user.role,
         username: req?.body?.username,
         password: req?.body?.password,
         role: "ADMIN",
@@ -51,7 +51,7 @@ export class AdminController {
         profilePicture: req?.body?.profilePicture,
       };
 
-      const admin = await AdminService.create(requestAdmin);
+      const admin = await AdminService.create(adminRequest);
 
       return res.status(API_STATUS_CODE.CREATED).json(ResponseHelper.toJson("Success create Admin", admin));
     } catch (error) {
@@ -63,8 +63,8 @@ export class AdminController {
     try {
       const user = req.user;
 
-      const requestAdmin = {
-        role: user.role,
+      const adminRequest = {
+        loggedRole: user.role,
         adminId: req?.params?.adminId ? Number(req?.params?.adminId) : null,
         name: req?.body?.name,
         email: req?.body?.email,
@@ -72,7 +72,7 @@ export class AdminController {
         profilePicture: req?.body?.profilePicture,
       };
 
-      const admin = await AdminService.update(requestAdmin);
+      const admin = await AdminService.update(adminRequest);
 
       return res.status(API_STATUS_CODE.CREATED).json(ResponseHelper.toJson("Success update Admin", admin));
     } catch (error) {
@@ -84,12 +84,12 @@ export class AdminController {
     try {
       const user = req.user;
 
-      const requestAdmin = {
-        role: user.role,
+      const adminRequest = {
+        loggedRole: user.role,
         adminId: req?.params?.adminId ? Number(req?.params?.adminId) : null,
       };
 
-      await AdminService.delete(requestAdmin);
+      await AdminService.delete(adminRequest);
 
       return res.status(API_STATUS_CODE.OK).json(ResponseHelper.toJson("Success Delete Admin!"));
     } catch (error) {
