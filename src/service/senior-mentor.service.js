@@ -6,7 +6,6 @@ import { createBcryptPassword } from "../helper/bcrypt.helper.js";
 
 export class SeniorMentorService {
   static async list(request) {
-    console.log(request);
     checkAllowedRole(ROLE.IS_ADMIN_SENIOR_MENTOR, request.loggedRole);
 
     const seniorMentor = await db.seniorMentor.findMany({

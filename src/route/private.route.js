@@ -3,12 +3,14 @@ import { UserController } from "../controller/user.controller.js";
 import { authMiddleware } from "../middleware/auth.middeware.js";
 import { AdminController } from "../controller/admin.controller.js";
 import { SeniorMentorController } from "../controller/senior-mentor.controller.js";
+import { MentorController } from "../controller/mentor.controller.js";
 const privateRouter = express.Router();
 
 // prefix route
 const userRoute = "/api/user";
 const adminRoute = "/api/admin";
 const seniorMentorRoute = "/api/senior-mentor";
+const mentorRoute = "/api/mentor";
 
 // User
 privateRouter.get(userRoute + "/current", authMiddleware, UserController.current);
@@ -26,5 +28,17 @@ privateRouter.post(seniorMentorRoute, authMiddleware, SeniorMentorController.cre
 privateRouter.get(seniorMentorRoute + "/:seniorMentorId", authMiddleware, SeniorMentorController.detail);
 privateRouter.put(seniorMentorRoute + "/:seniorMentorId", authMiddleware, SeniorMentorController.update);
 privateRouter.delete(seniorMentorRoute + "/:seniorMentorId", authMiddleware, SeniorMentorController.delete);
+
+// Mentor
+privateRouter.get(mentorRoute, authMiddleware, MentorController.list);
+privateRouter.post(mentorRoute, authMiddleware, MentorController.create);
+privateRouter.get(mentorRoute + "/:mentorId", authMiddleware, MentorController.detail);
+privateRouter.get(
+  mentorRoute + "/:mentorId/senior-mentor/:seniorMentorId",
+  authMiddleware,
+  MentorController.getMentorBySeniorMentor
+);
+privateRouter.put(mentorRoute + "/:mentorId", authMiddleware, MentorController.update);
+privateRouter.delete(mentorRoute + "/:mentorId", authMiddleware, MentorController.delete);
 
 export { privateRouter };
