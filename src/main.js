@@ -22,6 +22,6 @@ if (cluster.isPrimary) {
 } else {
   // Workers share the same port, but use separate Express instances
   web.listen(PORT, () => {
-    logger.info(`Worker ${process.pid} started. Listening on port ${PORT}`);
+    logger.info(`NodeJs worker-${process.pid} started. Listening on port ${PORT}`);
   });
 }
