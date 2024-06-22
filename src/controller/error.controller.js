@@ -1,10 +1,10 @@
 import { ResponseHelper } from "../helper/response-json.helper.js";
 import { API_STATUS_CODE } from "../helper/status-code.helper.js";
 
-export class HelloController {
-  static sayHello(req, res, next) {
+export class ErrorController {
+  static routeNotFound(req, res, next) {
     try {
-      res.status(API_STATUS_CODE.OK).json(ResponseHelper.toJson("Hello from API!"));
+      return res.status(API_STATUS_CODE.NOT_FOUND).json(ResponseHelper.toJsonError("Route not found!"));
     } catch (error) {
       next(error);
     }

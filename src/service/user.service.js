@@ -19,7 +19,11 @@ export class UserService {
     request.password = await createBcryptPassword(request.password);
 
     const user = await db.user.create({
-      data: request,
+      data: {
+        role: request.role,
+        username: request.username,
+        password: request.password,
+      },
       select: {
         id: true,
         username: true,
@@ -28,10 +32,65 @@ export class UserService {
       },
     });
 
+    if (request.role === "SENIOR_MENTOR") {
+      await db.seniorMentor.create({
+        data: {
+          userId: user.id,
+          name: request?.name,
+        },
+        select: {
+          name: true,
+          email: true,
+          phoneNumber: true,
+          profilePicture: true,
+        },
+      });
+    } else if (request.role === "MENTOR") {
+      await db.mentor.create({
+        data: {
+          userId: user.id,
+          name: request?.name,
+        },
+        select: {
+          name: true,
+          email: true,
+          phoneNumber: true,
+          profilePicture: true,
+        },
+      });
+    } else if (request.role === "MENTEE") {
+      await db.mentee.create({
+        data: {
+          userId: user.id,
+          name: request?.name,
+        },
+        select: {
+          name: true,
+          email: true,
+          phoneNumber: true,
+          profilePicture: true,
+        },
+      });
+    } else if (request.role === "ADMIN") {
+      await db.admin.create({
+        data: {
+          userId: user.id,
+          name: request?.name,
+        },
+        select: {
+          name: true,
+          email: true,
+          phoneNumber: true,
+          profilePicture: true,
+        },
+      });
+    }
+
     return user;
   }
 
   static async login(request) {
+    console.log("HEHE:", request);
     const existedUser = await db.user.findFirst({
       where: {
         username: request.username,
@@ -72,11 +131,11 @@ export class UserService {
   }
 
   static async checkUserToken(token) {
-    const user = await decodeJwt(token);
+    const decodedUser = await decodeJwt(token);
 
     const existedUser = await db.user.findUnique({
       where: {
-        id: user.id,
+        id: decodedUser.id,
       },
       select: {
         id: true,
@@ -90,6 +149,67 @@ export class UserService {
       throw new APIError(API_STATUS_CODE.NOT_FOUND, "User not found!");
     }
 
-    return existedUser;
+    let user;
+
+    if (existedUser.role === "SENIOR_MENTOR") {
+      user = await db.seniorMentor.findFirst({
+        where: {
+          userId: existedUser.id,
+        },
+        select: {
+          name: true,
+          email: true,
+          phoneNumber: true,
+          profilePicture: true,
+        },
+      });
+    } else if (existedUser.role === "MENTOR") {
+      user = await db.mentor.findFirst({
+        where: {
+          userId: existedUser.id,
+        },
+        select: {
+          name: true,
+          email: true,
+          phoneNumber: true,
+          profilePicture: true,
+        },
+      });
+    } else if (existedUser.role === "MENTEE") {
+      user = await db.mentee.findFirst({
+        where: {
+          userId: existedUser.id,
+        },
+        select: {
+          name: true,
+          email: true,
+          phoneNumber: true,
+          profilePicture: true,
+        },
+      });
+    } else if (existedUser.role === "ADMIN") {
+      user = await db.admin.findFirst({
+        where: {
+          userId: existedUser.id,
+        },
+        select: {
+          name: true,
+          email: true,
+          phoneNumber: true,
+          profilePicture: true,
+        },
+      });
+    }
+
+    if (!user) {
+      throw new APIError(API_STATUS_CODE.NOT_FOUND, "User not specific update each the roles!");
+    }
+
+    return {
+      id: existedUser.id, // we get id of user for easy delete
+      username: existedUser.username,
+      role: existedUser.token,
+      ...user,
+    };
   }
 }

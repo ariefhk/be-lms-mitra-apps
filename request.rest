@@ -1,0 +1,27 @@
+################## USER ##################
+
+###
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{ 
+"name":"Admin",
+"username": "admin",
+"password": "rahasia",
+"role":"ADMIN"
+}
+
+###
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{ 
+"username": "admin",
+"password": "rahasia"
+}
+
+###
+GET http://localhost:5000/api/user/current
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+

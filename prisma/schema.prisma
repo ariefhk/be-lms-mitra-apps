@@ -31,8 +31,23 @@ model User {
   seniorMentor SeniorMentor?
   mentor       Mentor?
   mentee       Mentee?
+  admin        Admin?
 
   @@map("users")
+}
+
+model Admin {
+  id             Int      @id @default(autoincrement())
+  userId         Int      @unique @map("user_id")
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name           String
+  email          String?
+  phoneNumber    String?  @map("phone_number")
+  profilePicture String?  @map("profile_picture")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("admins")
 }
 
 model SeniorMentor {
@@ -40,9 +55,9 @@ model SeniorMentor {
   userId         Int      @unique @map("user_id")
   user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   name           String
-  email          String
-  phoneNumber    String   @map("phone_number")
-  profilePicture String   @map("profile_picture")
+  email          String?
+  phoneNumber    String?  @map("phone_number")
+  profilePicture String?  @map("profile_picture")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
   mentors        Mentor[]
@@ -57,9 +72,9 @@ model Mentor {
   seniorMentorId Int          @map("senior_mentor_id")
   seniorMentor   SeniorMentor @relation(fields: [seniorMentorId], references: [id], onDelete: Cascade)
   name           String
-  email          String
-  phoneNumber    String       @map("phone_number")
-  profilePicture String       @map("profile_picture")
+  email          String?
+  phoneNumber    String?      @map("phone_number")
+  profilePicture String?      @map("profile_picture")
   createdAt      DateTime     @default(now()) @map("created_at")
   updatedAt      DateTime     @updatedAt @map("updated_at")
 
@@ -67,15 +82,15 @@ model Mentor {
 }
 
 model Mentee {
-  id             Int    @id @default(autoincrement())
-  userId         Int    @unique @map("user_id")
+  id             Int     @id @default(autoincrement())
+  userId         Int     @unique @map("user_id")
   name           String
-  email          String
-  phoneNumber    String @map("phone_number")
-  profilePicture String @map("profile_picture")
-  university     String
-  major          String
-  user           User   @relation(fields: [userId], references: [id])
+  email          String?
+  phoneNumber    String? @map("phone_number")
+  profilePicture String? @map("profile_picture")
+  university     String?
+  major          String?
+  user           User    @relation(fields: [userId], references: [id])
 
   @@map("mentees")
 }
