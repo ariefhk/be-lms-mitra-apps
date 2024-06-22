@@ -32,7 +32,7 @@ export class UserController {
     }
   }
 
-  static current(req, res, next) {
+  static async current(req, res, next) {
     try {
       const user = req.user;
       return res.status(API_STATUS_CODE.OK).json(ResponseHelper.toJson("Success get User", user));
