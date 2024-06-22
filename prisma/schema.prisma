@@ -12,3 +12,70 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Role {
+  ADMIN
+  SENIOR_MENTOR
+  MENTOR
+  MENTEE
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  username     String        @unique
+  password     String
+  token        String?
+  role         Role
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  seniorMentor SeniorMentor?
+  mentor       Mentor?
+  mentee       Mentee?
+
+  @@map("users")
+}
+
+model SeniorMentor {
+  id             Int      @id @default(autoincrement())
+  userId         Int      @unique @map("user_id")
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name           String
+  email          String
+  phoneNumber    String   @map("phone_number")
+  profilePicture String   @map("profile_picture")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+  mentors        Mentor[]
+
+  @@map("senior_mentors")
+}
+
+model Mentor {
+  id             Int          @id @default(autoincrement())
+  userId         Int          @unique @map("user_id")
+  user           User         @relation(fields: [userId], references: [id])
+  seniorMentorId Int          @map("senior_mentor_id")
+  seniorMentor   SeniorMentor @relation(fields: [seniorMentorId], references: [id], onDelete: Cascade)
+  name           String
+  email          String
+  phoneNumber    String       @map("phone_number")
+  profilePicture String       @map("profile_picture")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  @@map("mentors")
+}
+
+model Mentee {
+  id             Int    @id @default(autoincrement())
+  userId         Int    @unique @map("user_id")
+  name           String
+  email          String
+  phoneNumber    String @map("phone_number")
+  profilePicture String @map("profile_picture")
+  university     String
+  major          String
+  user           User   @relation(fields: [userId], references: [id])
+
+  @@map("mentees")
+}

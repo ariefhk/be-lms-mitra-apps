@@ -3,7 +3,7 @@ import * as jose from "jose";
 import { API_STATUS_CODE } from "./status-code.helper.js";
 import { APIError } from "../error/api.error.js";
 
-const makeJwt = async (data, expired = "") => {
+const createJwt = async (data, expired = "") => {
   const secretEncode = new TextEncoder().encode(process.env.JWT_SECRET_TOKEN);
   const alg = "HS256";
   let jwt;
@@ -33,4 +33,4 @@ const decodeJwt = async (jwt) => {
   }
 };
 
-export { makeJwt, decodeJwt };
+export { createJwt, decodeJwt };
