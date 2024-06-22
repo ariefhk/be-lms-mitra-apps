@@ -25,3 +25,46 @@ GET http://localhost:5000/api/user/current
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
 
+################## ADMIN ##################
+POST http://localhost:5000/api/admin
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+
+{ 
+"username": "admintest",
+"password": "rahasia",
+"name":"Admin Test",
+"email":"admintest@gmail.com",
+"phoneNumber":"1212134"
+}
+
+###
+GET  http://localhost:5000/api/admin
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+
+###
+GET  http://localhost:5000/api/admin/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+
+
+###
+PUT  http://localhost:5000/api/admin/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+
+{ 
+"username": "admintest",
+"password": "rahasia",
+"name":"Admin Test New",
+"email":"admintest@gmail.com",
+"phoneNumber":"1212134"
+}
+
+
+###
+DELETE  http://localhost:5000/api/admin/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+

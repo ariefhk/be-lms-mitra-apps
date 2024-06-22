@@ -208,7 +208,7 @@ export class UserService {
     return {
       id: existedUser.id, // we get id of user for easy delete
       username: existedUser.username,
-      role: existedUser.token,
+      role: existedUser.role,
       ...user,
     };
   }
