@@ -29,6 +29,12 @@ export class MentorService {
         email: true,
         phoneNumber: true,
         profilePicture: true,
+        seniorMentor: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
         createdAt: true,
       },
     });
@@ -125,6 +131,7 @@ export class MentorService {
             username: true,
           },
         },
+        seniorMentorId: true,
         name: true,
         email: true,
         phoneNumber: true,
@@ -140,6 +147,7 @@ export class MentorService {
     const formatedDetailMentor = {
       id: existedMentor.id,
       username: existedMentor.user.username,
+      seniorMentorId: existedMentor.seniorMentorId,
       name: existedMentor.name,
       email: existedMentor.email,
       phoneNumber: existedMentor.phoneNumber,
