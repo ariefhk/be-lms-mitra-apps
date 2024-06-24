@@ -16,7 +16,7 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 { 
-"username": "admin",
+"username": "alex",
 "password": "rahasia"
 }
 
@@ -74,15 +74,21 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
 
 { 
-"username": "seniormentor",
+"username": "alex",
 "password": "rahasia",
-"name":"Senior Mentor",
-"email":"seniormentor@gmail.com",
+"name":"Alex",
+"email":"alex@gmail.com",
 "phoneNumber":"1212134"
 }
 
 ###
 GET  http://localhost:5000/api/senior-mentor
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+
+
+###
+GET  http://localhost:5000/api/senior-mentor?name=
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
 
@@ -135,7 +141,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
 
 ###
-GET  http://localhost:5000/api/mentor/1/senior-mentor/2
+GET  http://localhost:5000/api/mentor/2/senior-mentor/1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
 

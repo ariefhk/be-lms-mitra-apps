@@ -9,6 +9,7 @@ export class SeniorMentorController {
 
       const seniorMentorRequest = {
         loggedRole: user.role,
+        name: req?.query?.name,
       };
 
       const seniorMentors = await SeniorMentorService.list(seniorMentorRequest);
@@ -66,6 +67,7 @@ export class SeniorMentorController {
       const seniorMentorRequest = {
         loggedRole: user.role,
         seniorMentorId: req?.params?.seniorMentorId ? Number(req?.params?.seniorMentorId) : null,
+        username: req?.body?.username,
         name: req?.body?.name,
         email: req?.body?.email,
         phoneNumber: req?.body?.phoneNumber,

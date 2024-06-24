@@ -7,8 +7,22 @@ import { createBcryptPassword } from "../helper/bcrypt.helper.js";
 export class SeniorMentorService {
   static async list(request) {
     checkAllowedRole(ROLE.IS_ADMIN_SENIOR_MENTOR, request.loggedRole);
+    let filter = {};
+
+    if (request?.name) {
+      filter.name = {
+        contains: request?.name,
+        mode: "insensitive",
+      };
+    }
 
     const seniorMentor = await db.seniorMentor.findMany({
+      orderBy: [
+        {
+          createdAt: "desc",
+        },
+      ],
+      where: filter,
       select: {
         id: true,
         name: true,
@@ -82,7 +96,7 @@ export class SeniorMentorService {
       data: {
         username: request.username,
         password: request.password,
-        role: request.loggedRole,
+        role: "SENIOR_MENTOR",
       },
     });
 
@@ -121,6 +135,30 @@ export class SeniorMentorService {
 
     if (!existedSeniorMentor) {
       throw new APIError(API_STATUS_CODE.BAD_REQUEST, "Senior Mentor not found!");
+    }
+
+    if (request?.username) {
+      const existedUserWithSameUsername = await db.user.findFirst({
+        where: {
+          username: request.username,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (existedUserWithSameUsername) {
+        throw new APIError(API_STATUS_CODE.BAD_REQUEST, "Username already exist!");
+      }
+
+      await db.user.update({
+        where: {
+          id: existedSeniorMentor.userId,
+        },
+        data: {
+          username: request.username,
+        },
+      });
     }
 
     const updatedSeniorMentor = await db.seniorMentor.update({

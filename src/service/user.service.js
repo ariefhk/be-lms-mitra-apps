@@ -100,6 +100,58 @@ export class UserService {
       throw new APIError(API_STATUS_CODE.NOT_FOUND, "User not found!");
     }
 
+    let detailUser;
+
+    if (existedUser.role === "SENIOR_MENTOR") {
+      detailUser = await db.seniorMentor.findFirst({
+        where: {
+          userId: existedUser.id,
+        },
+        select: {
+          name: true,
+          email: true,
+          phoneNumber: true,
+          profilePicture: true,
+        },
+      });
+    } else if (existedUser.role === "MENTOR") {
+      detailUser = await db.mentor.findFirst({
+        where: {
+          userId: existedUser.id,
+        },
+        select: {
+          name: true,
+          email: true,
+          phoneNumber: true,
+          profilePicture: true,
+        },
+      });
+    } else if (existedUser.role === "MENTEE") {
+      detailUser = await db.mentee.findFirst({
+        where: {
+          userId: existedUser.id,
+        },
+        select: {
+          name: true,
+          email: true,
+          phoneNumber: true,
+          profilePicture: true,
+        },
+      });
+    } else if (existedUser.role === "ADMIN") {
+      detailUser = await db.admin.findFirst({
+        where: {
+          userId: existedUser.id,
+        },
+        select: {
+          name: true,
+          email: true,
+          phoneNumber: true,
+          profilePicture: true,
+        },
+      });
+    }
+
     const isValidPassword = await compareBcryptPassword(request.password, existedUser.password);
 
     if (!isValidPassword) {
@@ -125,6 +177,13 @@ export class UserService {
     });
 
     return {
+      id: existedUser.id,
+      name: detailUser?.name,
+      email: detailUser?.email,
+      phoneNumber: detailUser?.phoneNumber,
+      profilePicture: detailUser?.profilePicture,
+      username: existedUser.username,
+      role: existedUser.role,
       token: updateUserToken.token,
     };
   }

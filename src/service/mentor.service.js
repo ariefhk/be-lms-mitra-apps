@@ -7,8 +7,22 @@ import { db } from "../db/connector.db.js";
 export class MentorService {
   static async list(request) {
     checkAllowedRole(ROLE.IS_ADMIN_MENTOR, request.loggedRole);
+    let filter = {};
 
-    const seniorMentor = await db.mentor.findMany({
+    if (request?.name) {
+      filter.name = {
+        contains: request?.name,
+        mode: "insensitive",
+      };
+    }
+
+    const mentors = await db.mentor.findMany({
+      orderBy: [
+        {
+          createdAt: "desc",
+        },
+      ],
+      where: filter,
       select: {
         id: true,
         name: true,
@@ -19,30 +33,46 @@ export class MentorService {
       },
     });
 
-    return seniorMentor;
+    return mentors;
   }
 
   static async getMentorBySeniorMentor(request) {
     checkAllowedRole(ROLE.IS_ADMIN_SENIOR_MENTOR, request.loggedRole);
+    let filter = [];
 
     if (!request?.mentorId) {
       throw new APIError(API_STATUS_CODE.BAD_REQUEST, "Mentor Id must be inputted!");
     }
 
+    filter.push({
+      id: request.mentorId,
+    });
+
     if (!request?.seniorMentorId) {
       throw new APIError(API_STATUS_CODE.BAD_REQUEST, "Senior Mentor Id must be inputted!");
     }
 
+    filter.push({
+      seniorMentorId: request?.seniorMentorId,
+    });
+
+    // if (request?.name) {
+    //   filter.push({
+    //     name: {
+    //       contains: request?.name,
+    //       mode: "insensitive",
+    //     },
+    //   });
+    // }
+
     const existedMentors = await db.mentor.findMany({
+      orderBy: [
+        {
+          createdAt: "desc",
+        },
+      ],
       where: {
-        AND: [
-          {
-            id: request.mentorId,
-          },
-          {
-            seniorMentorId: request?.seniorMentorId,
-          },
-        ],
+        AND: filter,
       },
       select: {
         id: true,
@@ -143,7 +173,7 @@ export class MentorService {
       data: {
         username: request.username,
         password: request.password,
-        role: request.loggedRole,
+        role: "MENTOR",
       },
     });
 
@@ -195,6 +225,30 @@ export class MentorService {
 
     if (!existedMentor) {
       throw new APIError(API_STATUS_CODE.BAD_REQUEST, "Mentor not found!");
+    }
+
+    if (request?.username) {
+      const existedUserWithSameUsername = await db.user.findFirst({
+        where: {
+          username: request.username,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (existedUserWithSameUsername) {
+        throw new APIError(API_STATUS_CODE.BAD_REQUEST, "Username already exist!");
+      }
+
+      await db.user.update({
+        where: {
+          id: existedMentor.userId,
+        },
+        data: {
+          username: request.username,
+        },
+      });
     }
 
     const updatedMentor = await db.mentor.update({
