@@ -4,16 +4,25 @@ import { authMiddleware } from "../middleware/auth.middeware.js";
 import { AdminController } from "../controller/admin.controller.js";
 import { SeniorMentorController } from "../controller/senior-mentor.controller.js";
 import { MentorController } from "../controller/mentor.controller.js";
+import { ClassController } from "../controller/class.controller.js";
 const privateRouter = express.Router();
 
 // prefix route
 const userRoute = "/api/user";
+const classRoute = "/api/class";
 const adminRoute = "/api/admin";
 const seniorMentorRoute = "/api/senior-mentor";
 const mentorRoute = "/api/mentor";
 
 // User
 privateRouter.get(userRoute + "/current", authMiddleware, UserController.current);
+
+// Class
+privateRouter.get(classRoute, authMiddleware, ClassController.list);
+privateRouter.post(classRoute, authMiddleware, ClassController.create);
+privateRouter.get(classRoute + "/:classId", authMiddleware, ClassController.detail);
+privateRouter.put(classRoute + "/:classId", authMiddleware, ClassController.update);
+privateRouter.delete(classRoute + "/:classId", authMiddleware, ClassController.delete);
 
 // Admin
 privateRouter.get(adminRoute, authMiddleware, AdminController.list);

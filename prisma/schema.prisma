@@ -77,20 +77,45 @@ model Mentor {
   profilePicture String?      @map("profile_picture")
   createdAt      DateTime     @default(now()) @map("created_at")
   updatedAt      DateTime     @updatedAt @map("updated_at")
+  class          Class?
 
   @@map("mentors")
 }
 
 model Mentee {
-  id             Int     @id @default(autoincrement())
-  userId         Int     @unique @map("user_id")
+  id             Int           @id @default(autoincrement())
+  userId         Int           @unique @map("user_id")
+  user           User          @relation(fields: [userId], references: [id])
   name           String
   email          String?
-  phoneNumber    String? @map("phone_number")
-  profilePicture String? @map("profile_picture")
+  batch          String?
+  phoneNumber    String?       @map("phone_number")
+  profilePicture String?       @map("profile_picture")
   university     String?
   major          String?
-  user           User    @relation(fields: [userId], references: [id])
+  menteeClass    MenteeClass[]
 
   @@map("mentees")
+}
+
+model Class {
+  id          Int           @id @default(autoincrement())
+  name        String
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  mentorId    Int?          @unique @map("mentor_id")
+  mentor      Mentor?       @relation(fields: [mentorId], references: [id], onDelete: Cascade)
+  menteeClass MenteeClass[]
+
+  @@map("classes")
+}
+
+model MenteeClass {
+  menteeId Int
+  mentee   Mentee @relation(fields: [menteeId], references: [id], onDelete: Cascade)
+  classId  Int
+  class    Class  @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  @@id([menteeId, classId])
+  @@map("mentee_classes")
 }

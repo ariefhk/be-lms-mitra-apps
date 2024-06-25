@@ -162,3 +162,40 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0I
 DELETE  http://localhost:5000/api/mentor/1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+
+
+################## CLASS ##################
+POST http://localhost:5000/api/class
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+
+{ 
+"name":"Python Programming",
+"mentorId": "2"
+}
+
+###
+GET  http://localhost:5000/api/class?name=
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+
+###
+GET  http://localhost:5000/api/class/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+
+
+###
+PUT  http://localhost:5000/api/class/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+
+{ 
+  "name":"Java Programming New",
+"mentorId": "1"
+}
+
+###
+DELETE  http://localhost:5000/api/class/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
