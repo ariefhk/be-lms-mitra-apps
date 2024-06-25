@@ -5,6 +5,7 @@ import { AdminController } from "../controller/admin.controller.js";
 import { SeniorMentorController } from "../controller/senior-mentor.controller.js";
 import { MentorController } from "../controller/mentor.controller.js";
 import { ClassController } from "../controller/class.controller.js";
+import { MenteeController } from "../controller/mentee.controller.js";
 const privateRouter = express.Router();
 
 // prefix route
@@ -13,6 +14,7 @@ const classRoute = "/api/class";
 const adminRoute = "/api/admin";
 const seniorMentorRoute = "/api/senior-mentor";
 const mentorRoute = "/api/mentor";
+const menteeRoute = "/api/mentee";
 
 // User
 privateRouter.get(userRoute + "/current", authMiddleware, UserController.current);
@@ -49,5 +51,12 @@ privateRouter.get(
 );
 privateRouter.put(mentorRoute + "/:mentorId", authMiddleware, MentorController.update);
 privateRouter.delete(mentorRoute + "/:mentorId", authMiddleware, MentorController.delete);
+
+// Mentee
+privateRouter.get(menteeRoute, authMiddleware, MenteeController.list);
+privateRouter.post(menteeRoute, authMiddleware, MenteeController.create);
+privateRouter.get(menteeRoute + "/:menteeId", authMiddleware, MenteeController.detail);
+privateRouter.put(menteeRoute + "/:menteeId", authMiddleware, MenteeController.update);
+privateRouter.delete(menteeRoute + "/:menteeId", authMiddleware, MenteeController.delete);
 
 export { privateRouter };

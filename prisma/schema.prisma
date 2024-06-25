@@ -38,28 +38,28 @@ model User {
 
 model Admin {
   id             Int      @id @default(autoincrement())
-  userId         Int      @unique @map("user_id")
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   name           String
   email          String?
   phoneNumber    String?  @map("phone_number")
   profilePicture String?  @map("profile_picture")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
+  userId         Int      @unique @map("user_id")
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("admins")
 }
 
 model SeniorMentor {
   id             Int      @id @default(autoincrement())
-  userId         Int      @unique @map("user_id")
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   name           String
   email          String?
   phoneNumber    String?  @map("phone_number")
   profilePicture String?  @map("profile_picture")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
+  userId         Int      @unique @map("user_id")
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   mentors        Mentor[]
 
   @@map("senior_mentors")
@@ -67,55 +67,48 @@ model SeniorMentor {
 
 model Mentor {
   id             Int          @id @default(autoincrement())
-  userId         Int          @unique @map("user_id")
-  user           User         @relation(fields: [userId], references: [id])
-  seniorMentorId Int          @map("senior_mentor_id")
-  seniorMentor   SeniorMentor @relation(fields: [seniorMentorId], references: [id], onDelete: Cascade)
   name           String
   email          String?
   phoneNumber    String?      @map("phone_number")
   profilePicture String?      @map("profile_picture")
   createdAt      DateTime     @default(now()) @map("created_at")
   updatedAt      DateTime     @updatedAt @map("updated_at")
+  userId         Int          @unique @map("user_id")
+  user           User         @relation(fields: [userId], references: [id])
+  seniorMentorId Int          @map("senior_mentor_id")
+  seniorMentor   SeniorMentor @relation(fields: [seniorMentorId], references: [id], onDelete: Cascade)
   class          Class?
 
   @@map("mentors")
 }
 
 model Mentee {
-  id             Int           @id @default(autoincrement())
-  userId         Int           @unique @map("user_id")
-  user           User          @relation(fields: [userId], references: [id])
+  id             Int      @id @default(autoincrement())
   name           String
   email          String?
   batch          String?
-  phoneNumber    String?       @map("phone_number")
-  profilePicture String?       @map("profile_picture")
+  phoneNumber    String?  @map("phone_number")
+  profilePicture String?  @map("profile_picture")
   university     String?
   major          String?
-  menteeClass    MenteeClass[]
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+  userId         Int      @unique @map("user_id")
+  user           User     @relation(fields: [userId], references: [id])
+  classId        Int?     @map("class_id")
+  class          Class?   @relation(fields: [classId], references: [id], onDelete: Cascade)
 
   @@map("mentees")
 }
 
 model Class {
-  id          Int           @id @default(autoincrement())
-  name        String
-  createdAt   DateTime      @default(now()) @map("created_at")
-  updatedAt   DateTime      @updatedAt @map("updated_at")
-  mentorId    Int?          @unique @map("mentor_id")
-  mentor      Mentor?       @relation(fields: [mentorId], references: [id], onDelete: Cascade)
-  menteeClass MenteeClass[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  mentorId  Int?     @unique @map("mentor_id")
+  mentor    Mentor?  @relation(fields: [mentorId], references: [id], onDelete: Cascade)
+  mentee    Mentee[]
 
   @@map("classes")
-}
-
-model MenteeClass {
-  menteeId Int
-  mentee   Mentee @relation(fields: [menteeId], references: [id], onDelete: Cascade)
-  classId  Int
-  class    Class  @relation(fields: [classId], references: [id], onDelete: Cascade)
-
-  @@id([menteeId, classId])
-  @@map("mentee_classes")
 }

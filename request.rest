@@ -170,7 +170,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
 
 { 
-"name":"Python Programming",
+"name":"Java",
 "mentorId": "2"
 }
 
@@ -197,5 +197,47 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0I
 
 ###
 DELETE  http://localhost:5000/api/class/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+
+
+
+
+################## MENTEE ##################
+POST http://localhost:5000/api/mentee
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+
+{ 
+"username": "budi",
+"password": "rahasia",
+"name":"Budi",
+"email":"budi@gmail.com",
+"phoneNumber":"1212134",
+"classId": "1"
+}
+
+###
+GET  http://localhost:5000/api/mentee
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+
+###
+GET  http://localhost:5000/api/mentee/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+
+###
+PUT  http://localhost:5000/api/mentee/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0
+
+{ 
+
+"classId": "1"
+}
+
+###
+DELETE  http://localhost:5000/api/mentee/1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzE5MDE5NjU2LCJleHAiOjE3MjE2MTE2NTZ9.kNu3euIdZ54elv7JcEXauzqWTNHJqigLRPWRImxLdQ0

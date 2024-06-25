@@ -62,15 +62,6 @@ export class MentorService {
       seniorMentorId: request?.seniorMentorId,
     });
 
-    // if (request?.name) {
-    //   filter.push({
-    //     name: {
-    //       contains: request?.name,
-    //       mode: "insensitive",
-    //     },
-    //   });
-    // }
-
     const existedMentors = await db.mentor.findMany({
       orderBy: [
         {

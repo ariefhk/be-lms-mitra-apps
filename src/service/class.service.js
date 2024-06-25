@@ -82,11 +82,7 @@ export class ClassService {
             },
           },
         },
-        menteeClass: {
-          select: {
-            mentee: true,
-          },
-        },
+        mentee: true,
       },
     });
 
@@ -106,17 +102,18 @@ export class ClassService {
         name: existedClass?.mentor?.seniorMentor?.name || null,
       },
       mentees:
-        existedClass.menteeClass.length > 0
-          ? existedClass.menteeClass.map((cls) => {
+        existedClass.mentee.length > 0
+          ? existedClass.mentee.map((mt) => {
               return {
-                id: cls?.mentee?.id,
-                name: cls?.mentee?.name,
-                email: cls?.mentee?.email,
-                phoneNumber: cls?.mentee?.phoneNumber,
-                university: cls?.mentee?.university,
-                major: cls?.mentee?.major,
-                batch: cls?.mentee?.batch,
-                profilePicture: cls?.mentee?.profilePicture,
+                id: mt.id,
+                name: mt.name,
+                email: mt.email,
+                phoneNumber: mt.phoneNumber,
+                profilePicture: mt.profilePicture,
+                university: mt.university,
+                major: mt.major,
+                batch: mt.batch,
+                createdAt: mt.createdAt,
               };
             })
           : [],
@@ -227,11 +224,6 @@ export class ClassService {
             },
           },
         },
-        menteeClass: {
-          select: {
-            mentee: true,
-          },
-        },
       },
     });
 
@@ -302,11 +294,6 @@ export class ClassService {
                 name: true,
               },
             },
-          },
-        },
-        menteeClass: {
-          select: {
-            mentee: true,
           },
         },
       },

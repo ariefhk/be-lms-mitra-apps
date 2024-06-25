@@ -1,5 +1,6 @@
 import { ResponseHelper } from "../helper/response-json.helper.js";
 import { API_STATUS_CODE } from "../helper/status-code.helper.js";
+import { MenteeService } from "../service/mentee.service.js";
 
 export class MenteeController {
   static async list(req, res, next) {
@@ -7,10 +8,13 @@ export class MenteeController {
       const user = req.user;
 
       const menteeRequest = {
-        role: user.role,
+        loggedRole: user.role,
+        name: req?.query?.name,
       };
 
-      res.status(API_STATUS_CODE.OK).json(ResponseHelper.toJson("Hello from API!"));
+      const mentess = await MenteeService.list(menteeRequest);
+
+      res.status(API_STATUS_CODE.OK).json(ResponseHelper.toJson("Succes Get Mentess!", mentess));
     } catch (error) {
       next(error);
     }
@@ -21,11 +25,13 @@ export class MenteeController {
       const user = req.user;
 
       const menteeRequest = {
-        role: user.role,
-        seniorMentorId: req?.params?.seniorMentorId ? Number(req?.params?.seniorMentorId) : null,
+        loggedRole: user.role,
+        menteeId: req?.params?.menteeId ? Number(req?.params?.menteeId) : null,
       };
 
-      res.status(API_STATUS_CODE.OK).json(ResponseHelper.toJson("Hello from API!"));
+      const mentee = await MenteeService.detail(menteeRequest);
+
+      res.status(API_STATUS_CODE.OK).json(ResponseHelper.toJson("Success Get Detail Mentee!", mentee));
     } catch (error) {
       next(error);
     }
@@ -36,10 +42,22 @@ export class MenteeController {
       const user = req.user;
 
       const menteeRequest = {
-        role: user.role,
+        loggedRole: user.role,
+        classId: req?.body?.classId ? Number(req?.body?.classId) : null,
+        username: req?.body?.username,
+        password: req?.body?.password,
+        name: req?.body?.name,
+        email: req?.body?.email,
+        phoneNumber: req?.body?.phoneNumber,
+        profilePicture: req?.body?.profilePicture,
+        university: req?.body?.university,
+        major: req?.body?.major,
+        batch: req?.body?.batch,
       };
 
-      res.status(API_STATUS_CODE.CREATED).json(ResponseHelper.toJson("Hello from API!"));
+      const mentee = await MenteeService.create(menteeRequest);
+
+      res.status(API_STATUS_CODE.CREATED).json(ResponseHelper.toJson("Success create mentee!", mentee));
     } catch (error) {
       next(error);
     }
@@ -50,11 +68,23 @@ export class MenteeController {
       const user = req.user;
 
       const menteeRequest = {
-        role: user.role,
-        seniorMentorId: req?.params?.seniorMentorId ? Number(req?.params?.seniorMentorId) : null,
+        loggedRole: user.role,
+        menteeId: req?.params?.menteeId ? Number(req?.params?.menteeId) : null,
+        classId: req?.body?.classId ? Number(req?.body?.classId) : null,
+        username: req?.body?.username,
+        password: req?.body?.password,
+        name: req?.body?.name,
+        email: req?.body?.email,
+        phoneNumber: req?.body?.phoneNumber,
+        profilePicture: req?.body?.profilePicture,
+        university: req?.body?.university,
+        major: req?.body?.major,
+        batch: req?.body?.batch,
       };
 
-      res.status(API_STATUS_CODE.CREATED).json(ResponseHelper.toJson("Hello from API!"));
+      const mentee = await MenteeService.update(menteeRequest);
+
+      res.status(API_STATUS_CODE.CREATED).json(ResponseHelper.toJson("Success update mentee", mentee));
     } catch (error) {
       next(error);
     }
@@ -65,11 +95,13 @@ export class MenteeController {
       const user = req.user;
 
       const menteeRequest = {
-        role: user.role,
-        seniorMentorId: req?.params?.seniorMentorId ? Number(req?.params?.seniorMentorId) : null,
+        loggedRole: user.role,
+        menteeId: req?.params?.menteeId ? Number(req?.params?.menteeId) : null,
       };
 
-      res.status(API_STATUS_CODE.OK).json(ResponseHelper.toJson("Hello from API!"));
+      await MenteeService.delete(menteeRequest);
+
+      res.status(API_STATUS_CODE.OK).json(ResponseHelper.toJson("Success delete mentee!"));
     } catch (error) {
       next(error);
     }
