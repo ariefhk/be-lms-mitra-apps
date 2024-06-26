@@ -36,13 +36,44 @@ export class MenteeService {
           select: {
             id: true,
             name: true,
+            mentor: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
           },
         },
         createdAt: true,
       },
     });
 
-    return mentees;
+    const formattedMentees =
+      mentees.length > 0
+        ? mentees.map((mtn) => {
+            return {
+              id: mtn.id,
+              name: mtn.name,
+              email: mtn.email,
+              phoneNumber: mtn.phoneNumber,
+              profilePicture: mtn.profilePicture,
+              university: mtn.university,
+              major: mtn.major,
+              batch: mtn.batch,
+              mentor: {
+                id: mtn?.class?.mentor?.id || null,
+                name: mtn?.class?.mentor?.name || null,
+              },
+              class: {
+                id: mtn?.class?.id || null,
+                name: mtn?.class?.name || null,
+              },
+              createdAt: mtn.createdAt,
+            };
+          })
+        : [];
+
+    return formattedMentees;
   }
 
   static async detail(request) {
@@ -69,9 +100,20 @@ export class MenteeService {
           select: {
             id: true,
             name: true,
+            mentor: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
           },
         },
-        createdAt: true,
+        user: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
       },
     });
 
@@ -79,7 +121,28 @@ export class MenteeService {
       throw new APIError(API_STATUS_CODE.NOT_FOUND, "Mentee not found!");
     }
 
-    return existedMentee;
+    const formattedMentee = {
+      id: existedMentee.id,
+      username: existedMentee.user.username,
+      name: existedMentee.name,
+      email: existedMentee.email,
+      phoneNumber: existedMentee.phoneNumber,
+      profilePicture: existedMentee.profilePicture,
+      university: existedMentee.university,
+      major: existedMentee.major,
+      batch: existedMentee.batch,
+      mentor: {
+        id: existedMentee?.class?.mentor?.id || null,
+        name: existedMentee?.class?.mentor?.name || null,
+      },
+      class: {
+        id: existedMentee?.class?.id || null,
+        name: existedMentee?.class?.name || null,
+      },
+      createdAt: existedMentee.createdAt,
+    };
+
+    return formattedMentee;
   }
 
   static async create(request) {
