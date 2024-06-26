@@ -16,6 +16,11 @@ export class ClassService {
     }
 
     const classes = await db.class.findMany({
+      orderBy: [
+        {
+          createdAt: "desc",
+        },
+      ],
       where: filter,
       select: {
         id: true,
@@ -57,7 +62,7 @@ export class ClassService {
   }
 
   static async detail(request) {
-    checkAllowedRole(ROLE.IS_ADMIN, request.loggedRole);
+    checkAllowedRole(ROLE.IS_ADMIN_SENIOR_MENTOR, request.loggedRole);
 
     if (!request?.classId) {
       throw new APIError(API_STATUS_CODE.BAD_REQUEST, "class Id must be inputted!");
@@ -120,6 +125,64 @@ export class ClassService {
     };
 
     return formatedDetailClass;
+  }
+
+  static async getClassByMentor(request) {
+    checkAllowedRole(ROLE.IS_ADMIN_SENIOR_MENTOR, request.loggedRole);
+
+    if (!request?.mentorId) {
+      throw new APIError(API_STATUS_CODE.BAD_REQUEST, "Mentor Id must be inputted!");
+    }
+
+    const existedClasses = await db.class.findFirst({
+      where: {
+        mentorId: request.mentorId,
+      },
+      select: {
+        id: true,
+        name: true,
+        mentor: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        mentee: true,
+      },
+    });
+
+    if (!existedClasses) {
+      throw new APIError(API_STATUS_CODE.NOT_FOUND, "class not found!");
+    }
+
+    const formatedGetClassByMentor = {
+      mentor: {
+        id: existedClasses.id,
+        name: existedClasses.name,
+        mentor: {
+          id: existedClasses?.mentor?.id || null,
+          name: existedClasses?.mentor?.name || null,
+        },
+        mentees:
+          existedClasses.mentee.length > 0
+            ? existedClasses.mentee.map((cls) => {
+                return {
+                  id: cls.id,
+                  name: cls.name,
+                  email: cls.email,
+                  phoneNumber: cls.phoneNumber,
+                  profilePicture: cls.profilePicture,
+                  university: cls.university,
+                  major: cls.major,
+                  batch: cls.batch,
+                  createdAt: cls.createdAt,
+                };
+              })
+            : [],
+      },
+    };
+
+    return formatedGetClassByMentor;
   }
 
   static async create(request) {

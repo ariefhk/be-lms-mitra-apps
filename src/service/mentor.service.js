@@ -44,23 +44,36 @@ export class MentorService {
 
   static async getMentorBySeniorMentor(request) {
     checkAllowedRole(ROLE.IS_ADMIN_SENIOR_MENTOR, request.loggedRole);
-    let filter = [];
+    const filter = [];
 
-    if (!request?.mentorId) {
-      throw new APIError(API_STATUS_CODE.BAD_REQUEST, "Mentor Id must be inputted!");
-    }
-
-    filter.push({
-      id: request.mentorId,
-    });
+    console.log("request senior mentor: ", request);
 
     if (!request?.seniorMentorId) {
       throw new APIError(API_STATUS_CODE.BAD_REQUEST, "Senior Mentor Id must be inputted!");
     }
 
-    filter.push({
-      seniorMentorId: request?.seniorMentorId,
+    const existedSeniorMentor = await db.seniorMentor.findFirst({
+      where: {
+        userId: request.seniorMentorId,
+      },
     });
+
+    if (!existedSeniorMentor) {
+      throw new APIError(API_STATUS_CODE.NOT_FOUND, "Senior Mentor not found!");
+    }
+
+    filter.push({
+      seniorMentorId: existedSeniorMentor.id,
+    });
+
+    if (request?.name) {
+      filter.push({
+        name: {
+          contains: request?.name,
+          mode: "insensitive",
+        },
+      });
+    }
 
     const existedMentors = await db.mentor.findMany({
       orderBy: [
@@ -76,6 +89,12 @@ export class MentorService {
         user: {
           select: {
             username: true,
+          },
+        },
+        class: {
+          select: {
+            id: true,
+            name: true,
           },
         },
         name: true,
@@ -96,6 +115,10 @@ export class MentorService {
               email: mentor.email,
               phoneNumber: mentor.phoneNumber,
               profilePicture: mentor.profilePicture,
+              class: {
+                id: mentor?.class?.id || null,
+                name: mentor?.class?.name || null,
+              },
               createdAt: mentor.createdAt,
             };
           })

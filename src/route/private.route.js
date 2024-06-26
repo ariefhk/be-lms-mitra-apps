@@ -44,11 +44,7 @@ privateRouter.delete(seniorMentorRoute + "/:seniorMentorId", authMiddleware, Sen
 privateRouter.get(mentorRoute, authMiddleware, MentorController.list);
 privateRouter.post(mentorRoute, authMiddleware, MentorController.create);
 privateRouter.get(mentorRoute + "/:mentorId", authMiddleware, MentorController.detail);
-privateRouter.get(
-  mentorRoute + "/:mentorId/senior-mentor/:seniorMentorId",
-  authMiddleware,
-  MentorController.getMentorBySeniorMentor
-);
+privateRouter.get(mentorRoute + "/senior-mentor/:seniorMentorId", authMiddleware, MentorController.getMentorBySeniorMentor);
 privateRouter.put(mentorRoute + "/:mentorId", authMiddleware, MentorController.update);
 privateRouter.delete(mentorRoute + "/:mentorId", authMiddleware, MentorController.delete);
 

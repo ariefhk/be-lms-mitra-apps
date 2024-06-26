@@ -26,8 +26,8 @@ export class MentorController {
 
       const mentorRequest = {
         loggedRole: user.role,
-        mentorId: req?.params?.mentorId ? Number(req?.params?.mentorId) : null,
         seniorMentorId: req?.params?.seniorMentorId ? Number(req?.params?.seniorMentorId) : null,
+        name: req?.query?.name,
       };
 
       const mentors = await MentorService.getMentorBySeniorMentor(mentorRequest);
