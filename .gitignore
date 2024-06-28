@@ -1,3 +1,13 @@
 # Keep environment variables out of version control
 .env
 node_modules
+public/images/profile/*
+!public/images/profile/
+
+
+public/files/*
+!public/files/
+
+storage/assignment/*
+!storage/assignment/
+
